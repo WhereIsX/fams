@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import CreateGroup from "./CreateGroup"
-import JoinGroup from "./JoinGroup"
-import { Redirect } from "react-router-dom"
+import { Button } from "semantic-ui-react"
+
 
 class Home extends Component {
    state = {
@@ -14,10 +13,9 @@ class Home extends Component {
 
     redirectHandler = (path) => {
         if (path === "Join Group") {
-            // debugger
             this.props.history.replace("/groups/join")
         } else if (path === "Create Group") {
-            return <CreateGroup to="/groups/create" component={CreateGroup} />
+            this.props.history.replace("/groups/create")
         }
     }
 
@@ -25,10 +23,10 @@ class Home extends Component {
 
     render(){
         return (<div>
-                    <h1>You're home</h1>
+                    <h1>You're Home</h1>
                 {this.redirectHandler()}
-                <button onClick={e => this.clickHandler(e)}>Join Group</button>
-                <button onClick={e => this.clickHandler(e)}>Create Group</button>
+                <Button onClick={e => this.clickHandler(e)} content="Join Group" className="button" color="google plus"/> 
+                <Button onClick={e => this.clickHandler(e)} content="Create Group" className="button" color="google plus"/>
                 </div>)
 
     }

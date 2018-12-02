@@ -5,6 +5,7 @@ import Home from "./Components/Home"
 import NoMatch from "./Components/NoMatch"
 import { Route, Switch} from 'react-router-dom'
 import JoinGroup from './Components/JoinGroup';
+import NavBar from "./Components/NavBar"
 
 class App extends Component {
   state = {
@@ -18,6 +19,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <NavBar />
         <Switch>
           <Route exact path="/" render={(props) => (
             this.state.loggedIn === true ? (
