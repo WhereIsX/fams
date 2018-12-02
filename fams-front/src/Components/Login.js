@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-
 import { Button, Form, Input } from 'semantic-ui-react'
 import SignUp from './SignUp'
+import firebase, { auth, provider } from '../firebase.js';
+
 
 class Login extends Component {
     state = {
-        username: "",
-        password: ""
+        email: "",
+        password: "",
+        user: null
     }
 
     changeHandler = (e) => {
@@ -16,10 +18,30 @@ class Login extends Component {
 
     submitHandler = (e) => {
         e.preventDefault()
-        this.props.handleLogin()        
+        console.log(provider)
+        
+    
+        auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          this.setState({
+            user
+          });
+        }).then(this.props.handleLogin);
+        
+          
     }
-
+    
+    componentDidMount(){
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+            this.setState({ user });
+            } 
+        });
+    }
     render() {
+        console.log(provider)
+
         return (<div className="form">
             <h1>Please Login</h1>
             <Form onSubmit={e => this.submitHandler(e)}>
@@ -32,7 +54,7 @@ class Login extends Component {
                 
                 <Button type="submit" className="button" color="google plus">Login</Button>
             </Form>
-            <SignUp />
+            <SignUp props={this.props}/>
             </div>
             )
     }

@@ -25,7 +25,7 @@ class App extends Component {
             this.state.loggedIn === true ? (
               <Home {...props} loggedIn={this.state.loggedIn}/>
             ) : (
-            <Login handleLogin={this.handleLogin} />
+            <Login {...props} handleLogin={this.handleLogin} />
             )
             )} />
           <Route exact path="/groups/join" component={JoinGroup} />

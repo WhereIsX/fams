@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Button, Input } from 'semantic-ui-react'
 import { app } from 'firebase';
+import firebase, { auth, provider } from '../firebase.js';
 
 export default class componentName extends Component {
     state = {
@@ -14,24 +15,24 @@ export default class componentName extends Component {
         this.setState({ [e.target.name]: e.target.value})
     }
 
-    submitHandler = async event => {
-        event.preventDefault()
-
-        let email = this.state.email
-        let password = this.state.password
+    submitHandler = (e) => {
+        e.preventDefault()
         
-        try {
-            const user = await app
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            this.props.history.push("/groups/join")
-        } catch (error) {
-            alert(error)
+
+        const usersRef = firebase.database().ref('user')
+        const user = {
+            email: this.state.email,
+            password: this.state.password
         }
+
+        usersRef.push(user)
+
+        this.props.props.history.replace("/groups/join")
+        
+        
     }
 
   render() {
-
 
     return (
       <div>
