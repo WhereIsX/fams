@@ -1,0 +1,75 @@
+.App {
+  text-align: center;
+  
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* .ui.button #button {
+  background-color: orange;
+} */
+
+.ui.secondary.menu {
+  margin-left: -.35714286em;
+  margin-right: -.35714286em;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background: cyan;
+}
+
+.form {
+  align-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.input {
+  align: center;
+  width: 50%
+}
+
+#dogImg {
+  width: 62.5%;
+  height: 62.5%
+}
+
+#navbar {
+  background-color: #6495ed;
+}
+
+#search {
+  position: right;
+  width: 100%;
+}
+
+.nav-item {
+  color: antiquewhite;
+}
