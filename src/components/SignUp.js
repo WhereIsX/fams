@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Form, Button, Input } from 'semantic-ui-react'
-import { app } from 'firebase';
-import firebase, { auth, provider } from '../firebase.js';
 
 export default class componentName extends Component {
     state = {

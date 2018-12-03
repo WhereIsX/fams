@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Form, Input } from 'semantic-ui-react'
-import firebase, { auth, provider } from '../firebase.js';
 import Welcome from "./Welcome"
 import { runInThisContext } from 'vm';
 
