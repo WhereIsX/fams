@@ -3,7 +3,7 @@ import './App.css';
 import Login from "./components/Login"
 import Home from "./components/Home"
 import NoMatch from "./components/NoMatch"
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import CreateGroup from "./components/CreateGroup"
 import MyGroups from "./components/MyGroups"
 import NavBar from "./components/NavBar"
@@ -51,11 +51,13 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
-
+      this.setState({ user: data })
+      this.props.history.push("/home")
     })
   }
 
   render() {
+    console.log(this.props)
     return (  
       <div className="App">
         <NavBar props={this.state}/>
@@ -67,7 +69,7 @@ class App extends Component {
             <Login handleLogin={this.login} />
             )} />
           <Route exact path="/home" render={(props) => (
-            <Home {...props} /> 
+            <Home {...props} user={this.state.user} /> 
           )} />
           <Route exact path="/groups" component={MyGroups} />
           <Route exact path="/groups/create" component={CreateGroup} />
@@ -80,4 +82,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
