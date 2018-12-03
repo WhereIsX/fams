@@ -14,7 +14,7 @@ export default class componentName extends Component {
     }
 
     resetState = () => {
-        this.setState({ login: ""})
+        this.setState({ login: "" })
     }
 
     loginRender = () => {

@@ -3,12 +3,13 @@ import './App.css';
 import Login from "./components/Login"
 import Home from "./components/Home"
 import NoMatch from "./components/NoMatch"
-import { Route, Switch} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import JoinGroup from './components/JoinGroup';
 import CreateGroup from "./components/CreateGroup"
 import Groups from "./components/Groups"
 import NavBar from "./components/NavBar"
 import Welcome from "./components/Welcome"
+import GroupView from "./components/GroupView"
 
 class App extends Component {
   state = {
@@ -37,10 +38,11 @@ class App extends Component {
           <Route exact path="/groups" render={(props) => (
             <Groups {...props} />
           )}/>
-          
+
           <Route exact path="/home" component={Home} />
           <Route exact path="/groups/join" component={JoinGroup} />
           <Route exact path="/groups/create" component={CreateGroup} />
+          <Route path='/groups/:id' component={GroupView} />
           <Route component={NoMatch} />
           
         </Switch>
