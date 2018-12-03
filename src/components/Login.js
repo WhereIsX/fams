@@ -18,8 +18,6 @@ class Login extends Component {
 
     submitHandler = (e) => {
         e.preventDefault()
-        console.log(provider)
-        
     
         auth.signInWithPopup(provider)
         .then((result) => {
@@ -27,7 +25,7 @@ class Login extends Component {
           this.setState({
             user
           });
-        }).then(this.props.handleLogin);
+        }).then(() => this.props.history.replace("/home"));
         
           
     }

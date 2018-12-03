@@ -38,6 +38,7 @@ class App extends Component {
             <Groups {...props} />
           )}/>
           
+          <Route exact path="/home" component={Home} />
           <Route exact path="/groups/join" component={JoinGroup} />
           <Route exact path="/groups/create" component={CreateGroup} />
           <Route component={NoMatch} />

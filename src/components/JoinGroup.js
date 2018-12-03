@@ -24,7 +24,7 @@ export default class JoinGroup extends Component {
   render() {
     return (
       <div>
-        <h1>This is where JoinGroup will go.</h1>
+        <h1>Join A Group</h1>
         <Form onSubmit={e => this.submitHandler(e)} >
         <Input className="input" type="group" label='Find Your People:' placeholder='Find a Group' value={this.state.group} onChange={e => this.changeHandler(e)}/>
          
