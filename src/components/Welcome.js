@@ -17,14 +17,18 @@ export default class componentName extends Component {
         this.setState({ login: "" })
     }
 
+    collect = (obj) => {
+        this.props.createUser(obj)
+    }
+
     loginRender = () => {
         if (this.state.login === "login") {
             return (<div id="logins">
-                        <Login history={this.props.history} resetState={this.resetState}/>
+                        <Login history={this.props.history} resetState={this.resetState} handleLogin={this.props.login}/>
                     </div>
             )} else if (this.state.login === "signup") {
                 return (<div id="logins">
-                            <SignUp history={this.props.history} resetState={this.resetState}/>
+                            <SignUp history={this.props.history} resetState={this.resetState} createUser={this.collect}/>
                         </div>)
             } else {
                 return (<div>

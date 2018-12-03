@@ -5,7 +5,8 @@ import firebase, { auth, provider } from '../firebase.js';
 
 export default class componentName extends Component {
     state = {
-        email: "",
+        name: "",
+        username: "",
         password: ""
     }
 
@@ -16,21 +17,8 @@ export default class componentName extends Component {
     }
 
     submitHandler = (e) => {
-        e.preventDefault()
-        
-
-        const usersRef = firebase.database().ref('user')
-
-        const user = {
-            email: this.state.email,
-            password: this.state.password
-        }
-
-        usersRef.push(user)
-
-        this.props.props.history.replace("/groups/join")
-        
-        
+       e.preventDefault()
+       this.props.createUser(this.state)
     }
 
     clickBack = () => {
@@ -43,9 +31,9 @@ export default class componentName extends Component {
       <div>
           <h1>Sign Up!</h1>
             <Form onSubmit={e => this.submitHandler(e)}>
-                <Form.Field className="input" control={Input} name="email" label='email' placeholder='email' value={this.state.email} onChange={e => this.handleChange(e)}/>
-    
-                <Form.Input className="input" type="password" name="password" label='password:' placeholder='password' value={this.state.password} onChange={e => this.handleChange(e)} />
+                <Form.Field className="input" control={Input} name="name" label='Name:' placeholder='name' value={this.state.email} onChange={e => this.handleChange(e)}/>
+                <Form.Input className="input" control={Input} name="username" label="Username:" placeholder="username" value={this.state.username} onChange={e => this.handleChange(e)} />
+                <Form.Input className="input" type="password" name="password" label='Password:' placeholder='password' value={this.state.password} onChange={e => this.handleChange(e)} />
             
                 <Button type="submit" className="button" color="green">Sign Up</Button>
             </Form>
