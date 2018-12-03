@@ -5,7 +5,7 @@ import Home from "./components/Home"
 import NoMatch from "./components/NoMatch"
 import { Route, Switch } from 'react-router-dom'
 import CreateGroup from "./components/CreateGroup"
-import Groups from "./components/GroupTile"
+import MyGroups from "./components/MyGroups"
 import NavBar from "./components/NavBar"
 import Welcome from "./components/Welcome"
 import GroupView from "./components/GroupView"
@@ -66,11 +66,10 @@ class App extends Component {
           <Route exact path="/login" render={(props) => (
             <Login handleLogin={this.login} />
             )} />
-          <Route exact path="/groups" render={(props) => (
-            <Groups {...props} />
-          )}/>
-
-          <Route exact path="/home" component={Home} />
+          <Route exact path="/home" render={(props) => (
+            <Home {...props} /> 
+          )} />
+          <Route exact path="/groups" component={MyGroups} />
           <Route exact path="/groups/create" component={CreateGroup} />
           <Route path='/groups/:id' component={GroupView} />
           <Route component={NoMatch} />

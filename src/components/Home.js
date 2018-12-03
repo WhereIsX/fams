@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import GroupTile from './GroupTile'
 import { Button } from "semantic-ui-react"
 
 
@@ -19,10 +20,17 @@ class Home extends Component {
     }
 
     render(){
-        console.log(this.state.groups)
+        let allGroups = this.state.groups.map(group => {
+            return(<GroupTile 
+                    key={group.id}
+                    group={group}
+                    props={this.props}
+                    />)
+        })
         return (<div>
                     <h1>You're Home</h1>
-                <Button onClick={e => this.clickHandler(e)} content="See Groups" className="button" color="green"/> 
+                    {allGroups}
+                    <Button onClick={e => this.clickHandler(e)} content="My Groups" className="button" color="green"/> 
                 <br></br>
                 </div>)
 
