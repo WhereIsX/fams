@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Menu, Form, Dropdown } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
-import { auth } from 'firebase';
+import { Redirect, NavLink } from 'react-router-dom'
 
 export default class NavBar extends Component {
     state = {
@@ -30,10 +29,16 @@ export default class NavBar extends Component {
     render() {  
         return (
         <Menu id="navbar">
-            <Menu.Item name="home" className="nav-item" onClick={e => this.handleClick(e)} />
-            <Menu.Item name="groups" className="nav-item" onClick={e => this.handleClick(e)} />
-            <Menu.Item name={this.props.props.loggedIn ? "logout" : "login"} className="nav-item" onClick={e => this.handleClick(e)} />
-            <Form position="left" onSubmit={e => this.handleSubmit(e)}>
+            <Menu.Item name="home" >
+                <NavLink to="/" className="nav-item">Home</NavLink>
+            </Menu.Item>
+            <Menu.Item>
+                <NavLink to="/groups" className="nav-item">Groups</NavLink>
+            </Menu.Item>
+            <Menu.Item>
+                <NavLink to={this.props.props.loggedIn ? "/logout" : "/login"} >{this.props.props.loggedIn ? "Logout" : "Login"}</NavLink>
+            </Menu.Item>
+            <Form position="right" onSubmit={e => this.handleSubmit(e)}>
                 <Input icon="search" placeholder="Search Groups" value={this.state.search} onChange={e => this.onChange(e)} />
             </Form>
         </Menu>
