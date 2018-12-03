@@ -10,7 +10,7 @@ export default class CreateGroup extends Component {
     return (
       <div>
           <h1>This is where CreateGroup will go.</h1>
-          <Button onClick={e => this.clickHandler(e)} content="Home Page" className="button" color="google plus"/> 
+          <Button onClick={e => this.clickHandler(e)} content="Home Page" className="button" color="green"/> 
       </div>
     )
   }

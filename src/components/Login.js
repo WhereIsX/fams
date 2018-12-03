@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Form, Input } from 'semantic-ui-react'
-import SignUp from './SignUp'
 import firebase, { auth, provider } from '../firebase.js';
-
+import Welcome from "./Welcome"
+import { runInThisContext } from 'vm';
 
 class Login extends Component {
     state = {
@@ -39,22 +39,25 @@ class Login extends Component {
             } 
         });
     }
+
     render() {
-        console.log(provider)
+        // console.log(provider)
 
         return (<div className="form">
-            <h1>Please Login</h1>
-            <Form onSubmit={e => this.submitHandler(e)}>
-                <Form.Field className="input" control={Input} label='Username:' placeholder='username' />
-    
-                <Form.Input className="input" type="password" label='Password:' placeholder='password' />
-    
-                    
+                <h1>Please Login</h1>
+                <Form onSubmit={e => this.submitHandler(e)}>
+                    <Form.Field className="input" control={Input} label='Username:' placeholder='username' />
         
+                    <Form.Input className="input" type="password" label='Password:' placeholder='password' />
+        
+                        
+            
+                    
+                    <Button type="submit" className="button" color="green">Login</Button>
+                </Form>
                 
-                <Button type="submit" className="button" color="google plus">Login</Button>
-            </Form>
-            <SignUp props={this.props}/>
+                <Button content="Go Back" color="green" onClick={this.props.resetState}/>
+
             </div>
             )
     }

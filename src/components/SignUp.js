@@ -20,6 +20,7 @@ export default class componentName extends Component {
         
 
         const usersRef = firebase.database().ref('user')
+
         const user = {
             email: this.state.email,
             password: this.state.password
@@ -29,6 +30,10 @@ export default class componentName extends Component {
 
         this.props.props.history.replace("/groups/join")
         
+        
+    }
+
+    clickBack = () => {
         
     }
 
@@ -42,9 +47,9 @@ export default class componentName extends Component {
     
                 <Form.Input className="input" type="password" name="password" label='password:' placeholder='password' value={this.state.password} onChange={e => this.handleChange(e)} />
             
-                <Button type="submit" className="button" color="google plus">Sign Up</Button>
+                <Button type="submit" className="button" color="green">Sign Up</Button>
             </Form>
-    
+            <Button content="Go Back" color="green" onClick={this.props.resetState}/>
       </div>
     )
   }
