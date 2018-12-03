@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Input, Button } from 'semantic-ui-react'
 
-export default class JoinGroup extends Component {
+export default class MyGroups extends Component {
   state = {
     group: ""
   }

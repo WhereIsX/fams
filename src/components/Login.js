@@ -6,37 +6,21 @@ import { runInThisContext } from 'vm';
 
 class Login extends Component {
     state = {
-        email: "",
+        username: "",
         password: "",
-        user: null
     }
 
     changeHandler = (e) => {
-        console.log(e.target.placeholder)
-        this.setState({ [e.target.id]: e.target.value})
+        console.log(e.target.name)
+        this.setState({ [e.target.name]: e.target.value})
     }
 
     submitHandler = (e) => {
         e.preventDefault()
-    
-        auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          this.setState({
-            user
-          });
-        }).then(() => this.props.history.replace("/home"));
         
-          
+        this.props.handleLogin(this.state)      
     }
     
-    componentDidMount(){
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-            this.setState({ user });
-            } 
-        });
-    }
 
     render() {
         // console.log(provider)
@@ -44,9 +28,9 @@ class Login extends Component {
         return (<div className="form">
                 <h1>Please Login</h1>
                 <Form onSubmit={e => this.submitHandler(e)}>
-                    <Form.Field className="input" control={Input} label='Username:' placeholder='username' />
+                    <Form.Field className="input" name="username" control={Input} label='Username:' placeholder='username' onChange={e => this.changeHandler(e)}/>
         
-                    <Form.Input className="input" type="password" label='Password:' placeholder='password' />
+                    <Form.Input className="input" name="password" type="password" label='Password:' placeholder='password' onChange={e => this.changeHandler(e)}/>
         
                         
             
