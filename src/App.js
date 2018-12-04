@@ -36,7 +36,7 @@ class App extends Component {
 
   createUser = (obj) => {
     console.log(obj)
-    fetch("http://10.39.108.188/users", {
+    fetch("http://localhost:3003/users", {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -52,7 +52,7 @@ class App extends Component {
     .then(res => res.json())
     .then(data => {
       this.setState({ user: data })
-      this.props.history.push("/home")
+      console.log(data)
     })
   }
 
@@ -75,7 +75,8 @@ class App extends Component {
             <MyGroups {...props} user={this.state.user} />
           )} />
           <Route exact path="/groups/create" component={CreateGroup} />
-          <Route path='/groups/:id' component={GroupView} />
+          <Route path='/groups/:id' render={(props) => (
+            <GroupView {...props} />)} />
           <Route component={NoMatch} />
           
         </Switch>
