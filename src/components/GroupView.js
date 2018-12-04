@@ -7,12 +7,14 @@ import {fetchPhotos} from './FetchPhotos'
 export default class GroupView extends Component {
     state = {
         group: {},
-        photos: []
+        photos: [],
+        clicked: "empty",
+        inputValue: ""
     }
 
     componentDidMount() {
         let groupNumber = Number(this.props.match.params.id)
-        fetch(`http://10.39.108.188:3000/groups/${groupNumber}`)
+        fetch(`http://localhost:3003/groups/${groupNumber}`)
         .then(res => res.json())
         .then(data => {
             // debugger
@@ -41,7 +43,7 @@ export default class GroupView extends Component {
 
     checkUploadResult = (resultEvent) => {
         if (resultEvent.event === "success") {
-            fetch("http://10.39.108.188:3000/media", {
+            fetch("http://localhost:3003/media", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
@@ -64,7 +66,36 @@ export default class GroupView extends Component {
     }
 
     updateCaption = e => {
-        console.log("Clicked")
+        // debugger
+        this.setState({ clicked: e.target.parentElement.id, inputValue: e.target.parentElement.children[1].innerText
+        })
+    }
+
+    goBack = () => {
+        this.setState({ clicked: "empty" })
+    }
+
+    changeHandler = e => {
+        this.setState({ inputValue: e.target.value})
+    }
+
+    nameHandler = e => {
+       let id = e.target.parentElement.id
+        fetch(`http://localhost:3003/media/${id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json"
+            },
+            body: JSON.stringify({
+                "title": this.state.inputValue
+            })
+        })
+        .then(res => res.json())
+        .then(() => {
+            this.setState({inputValue: "", clicked: "empty"})
+            this.componentDidMount()
+            })
     }
 
     deleteHandler = e => {
@@ -76,24 +107,38 @@ export default class GroupView extends Component {
             })
         })
 
-        fetch(`http://10.39.108.188:3000/media/${id}`, {
+        fetch(`http://localhost:3003/media/${id}`, {
             method: "DELETE",
         })
         .then(alert("Photo Has Been Deleted!"))
     }
 
   render() {
-      console.log("https://res.cloudinary.com/famsproj/image/upload/v1543893523/qdwkvkapzfbmohwjxch6.jpg")
-      console.log(this.state.photos)
-        let allImages = this.state.photos.map(image => {
-            // debugger
-            return (<div id={image.id}>
+      console.log(this.state.clicked)
+    let allImages = this.state.photos.map(image => {
+        if (this.state.clicked !== "empty"){
+            if (image.id === Number(this.state.clicked)) {
+                    console.log(image)
+                    return (<div id={image.id} key={image.id}>
+                                <Form onSubmit={e => this.nameHandler(e)}>
+                                    <Input label="Edit Name" value={this.state.inputValue} onChange={this.changeHandler} />
+                                </Form>
+                                    <img src={image.image} width="300" crop="scale" alt="image not found =(" />
+                                <Button content="Delete Photo" color="red" onClick={e => this.deleteHandler(e)}/>
+                                <Button content="Go Back" color="green" onClick={e => this.goBack(e)} />
+                            </div>)
+                }
+                } else {
+                    console.log(image)
+                return (<div id={image.id} key={image.id}>
                     <img src={image.image} width="300" crop="scale" alt="image not found =("/>
                     <h1>{image.title}</h1>
-                    <Button content="Update Caption" color="green" onClick={e => this.updateCaption(e)}/>
-                    <Button content="Delete Photo" color="red" onClick={e => this.deleteHandler(e)}/>
+                    <Button content="Update Photo" color="green" onClick={e => this.updateCaption(e)}/>
                     </div>)
-        })
+                }
+    })
+            
+            
     return (
       <div>
           <div>
