@@ -17,19 +17,22 @@ export default class MyGroups extends Component {
     e.preventDefault()
   }
 
-  clickHandler = () => {
-    this.props.history.replace("/")
+  clickHandler = (e) => {
+    if (e.target.name === "create"){
+    this.props.history.replace("/groups/create")
+    } else {
+      this.props.history.replace("/home")
+    }
   }
+
+
 
   render() {
     return (
       <div>
-        <h1>Join A Group</h1>
-        <Form onSubmit={e => this.submitHandler(e)} >
-        <Input className="input" type="group" label='Find Your People:' placeholder='Find a Group' value={this.state.group} onChange={e => this.changeHandler(e)}/>
-         
-        <Button onClick={e => this.clickHandler(e)} content="Home Page" className="button" color="green"/> 
-        </Form>
+        <h1>Groups I Made</h1>
+        <Button name="create" content="Create Group" color="green" onClick={e => this.clickHandler(e)}/>
+        <Button name="home" content="Go Home" color="green" onClick={e => this.clickHandler(e)} />
       </div>
     )
   }

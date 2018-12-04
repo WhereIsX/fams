@@ -82,6 +82,7 @@
 
 #logins {
   float: left;
+  align-self: center;
   width: 45%;
   height: 45%
 }
@@ -94,4 +95,8 @@
 
 h1 {
   color: cornflowerblue;
+}
+
+body {
+  background-color: #F4F6F7 !important;
 }

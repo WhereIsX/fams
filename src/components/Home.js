@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import GroupTile from './GroupTile'
-import { Button } from "semantic-ui-react"
+import { Button, Grid } from "semantic-ui-react"
 
 
 class Home extends Component {
@@ -29,7 +29,9 @@ class Home extends Component {
         })
         return (<div>
                     <h1>You're Home</h1>
-                    {allGroups}
+                    <Grid>
+                        {allGroups}
+                    </Grid>
                     <Button onClick={e => this.clickHandler(e)} name="groups" content="My Groups" className="button" color="green"/> 
                     <Button onClick={e => this.clickHandler(e)} name="/groups/create" content="Create Group" className="button" color="green"/>
                 <br></br>

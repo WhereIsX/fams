@@ -71,7 +71,9 @@ class App extends Component {
           <Route exact path="/home" render={(props) => (
             <Home {...props} user={this.state.user} /> 
           )} />
-          <Route exact path="/groups" component={MyGroups} />
+          <Route exact path="/groups" render={(props) => (
+            <MyGroups {...props} user={this.state.user} />
+          )} />
           <Route exact path="/groups/create" component={CreateGroup} />
           <Route path='/groups/:id' component={GroupView} />
           <Route component={NoMatch} />
