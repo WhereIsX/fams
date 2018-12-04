@@ -13,13 +13,13 @@ import GroupView from "./components/GroupView"
 class App extends Component {
   state = {
     user: null,
-    state: null,
+    token: null,
   }
 
   componentDidMount = () => {
     let token = localStorage.getItem("token");
     if (token) {
-      fetch("http://localhost:3003/users/profiel", {
+      fetch("http://localhost:3003/users/profile", {
         headers: {
           "Content-Type": "application/json",
           "Accepts": "application/json",
@@ -32,7 +32,7 @@ class App extends Component {
         this.props.history.push("/home")
       })
     } else {
-      this.props.history.push("/welcome")
+      this.props.history.push("/")
     }
   }
 
@@ -65,22 +65,22 @@ class App extends Component {
         user: {
           name: obj.name,
           username: obj.username,
-          password: obj.password 
+          password: obj.password
         }
       })
     })
     .then(res => res.json())
     .then(data => {
-      console.log("made it")
       localStorage.setItem("token", data.jwt)
-      this.setState({ user: data })
+      this.setState({ user: data.user, token: data.jwt})
+      console.log('createuser set state', this.state)
       this.props.history.replace("/home")
     })
   }
 
   render() {
     console.log(this.state.user, localStorage)
-    return (  
+    return (
       <div className="App">
         <NavBar props={this.state}/>
         <Switch>
@@ -91,7 +91,7 @@ class App extends Component {
             <Login handleLogin={this.login} />
             )} />
           <Route exact path="/home" render={(props) => (
-            <Home {...props} user={this.state.user} /> 
+            <Home {...props} user={this.state.user} token={this.state.token} />
           )} />
           <Route exact path="/groups" render={(props) => (
             <MyGroups {...props} user={this.state.user} />
@@ -100,7 +100,7 @@ class App extends Component {
           <Route path='/groups/:id' render={(props) => (
             <GroupView {...props} />)} />
           <Route component={NoMatch} />
-          
+
         </Switch>
       </div>
     );

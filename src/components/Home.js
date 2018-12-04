@@ -14,15 +14,25 @@ class Home extends Component {
     }
 
     componentDidMount(){
-        fetch("http://localhost:3003/groups")
+      // debugger
+        fetch("http://localhost:3003/groups", {
+          headers: {
+            "content-type": "application/json",
+            "accepts": "application/json",
+            authorization: `${this.props.token}`
+          }
+        })
         .then(res => res.json())
-        .then(data => this.setState({ groups: data}))
+        .then(data => {
+          this.setState({ groups: data})
+          console.log("got to home fetch", data)
+        })
     }
 
     render(){
-        console.log(this.props)
+        console.log(this.props.token)
         let allGroups = this.state.groups.map(group => {
-            return(<GroupTile 
+            return(<GroupTile
                     key={group.id}
                     group={group}
                     props={this.props}
@@ -33,7 +43,7 @@ class Home extends Component {
                     <Grid>
                         {allGroups}
                     </Grid>
-                    <Button onClick={e => this.clickHandler(e)} name="groups" content="My Groups" className="button" color="green"/> 
+                    <Button onClick={e => this.clickHandler(e)} name="groups" content="My Groups" className="button" color="green"/>
                     <Button onClick={e => this.clickHandler(e)} name="/groups/create" content="Create Group" className="button" color="green"/>
                 <br></br>
                 </div>)
