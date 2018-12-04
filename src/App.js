@@ -12,11 +12,31 @@ import GroupView from "./components/GroupView"
 
 class App extends Component {
   state = {
-    user: {}
+    user: null,
+    state: null,
+  }
+
+  componentDidMount = () => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      fetch("http://localhost:3003/users/profiel", {
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json",
+          Authorization: `${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ user: data, token: token })
+        this.props.history.push("/home")
+      })
+    } else {
+      this.props.history.push("/welcome")
+    }
   }
 
   login = (userInfo) => {
-    console.log(userInfo)
     fetch("http://localhost:3003/api/v1/login", {
         method: "POST",
         headers: {
@@ -35,7 +55,7 @@ class App extends Component {
 }
 
   createUser = (obj) => {
-    console.log(obj)
+    // console.log(obj)
     fetch("http://localhost:3003/users", {
       method: "POST",
       headers: {
@@ -51,13 +71,15 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
+      console.log("made it")
+      localStorage.setItem("token", data.jwt)
       this.setState({ user: data })
-      console.log(data)
+      this.props.history.replace("/home")
     })
   }
 
   render() {
-    // console.log(this.props)
+    console.log(this.state.user, localStorage)
     return (  
       <div className="App">
         <NavBar props={this.state}/>

@@ -20,6 +20,7 @@ class Home extends Component {
     }
 
     render(){
+        console.log(this.props)
         let allGroups = this.state.groups.map(group => {
             return(<GroupTile 
                     key={group.id}
