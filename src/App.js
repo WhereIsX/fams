@@ -36,7 +36,7 @@ class App extends Component {
 
   createUser = (obj) => {
     console.log(obj)
-    fetch("http://10.39.111.231:3000/users", {
+    fetch("http://10.39.108.188/users", {
       method: "POST",
       headers: {
         "content-type": "application/json"
