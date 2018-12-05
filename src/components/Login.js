@@ -9,7 +9,7 @@ class Login extends Component {
     }
 
     changeHandler = (e) => {
-        console.log(e.target.name)
+        // console.log(e.target.name)
         this.setState({ [e.target.name]: e.target.value})
     }
 
@@ -21,8 +21,6 @@ class Login extends Component {
     
 
     render() {
-        // console.log(provider)
-
         return (<div className="form">
                 <h1>Please Login</h1>
                 <Form onSubmit={e => this.submitHandler(e)}>

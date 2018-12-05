@@ -61,7 +61,7 @@
 }
 
 #navbar {
-  background-color: #6bc7f9;
+  background-color: #4660f0;
 }
 
 #search {
@@ -96,8 +96,20 @@
   align-content: center;
 }
 
-h1 {
-  color: cornflowerblue;
+.header{
+  display: flex;
+  justify-content: center;
+  color: rgb(240, 239, 239);
+  background-color: #4660f0;
+  width: 25%;
+  margin: 0 auto;
+  border-radius: 10px
+}
+
+.imageHeader{
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 10px
 }
 
 body {
@@ -121,6 +133,10 @@ a:hover {
   color: #fbfec4
 }
 
+.ui.card {
+  background-color: #6af58a;
+}
+
 /* form.ui.form {
     display: flex;
     justify-content: center;
@@ -130,3 +146,19 @@ a:hover {
     position: relative;
     flex-wrap: wrap;
 } */
+
+.tile-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.imageCard {
+  margin-left: 5em;
+  margin-top: 5em;
+
+}
+
+.groupTile {
+  margin-left: 5em;
+  margin-top: 5em;
+}

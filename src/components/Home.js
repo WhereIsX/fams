@@ -48,20 +48,27 @@ class Home extends Component {
     render(){
         console.log(this.props.user)
         let allGroups = this.state.filteredGroups.map(group => {
-            return(<GroupTile
-                    key={group.id}
-                    group={group}
-                    props={this.props}
-                    token={this.props.token}
-                    />)
+            return(<div className="groupTile">
+                        <Grid.Column>
+                            <GroupTile
+                            key={group.id}
+                            group={group}
+                            props={this.props}
+                            token={this.props.token}
+                            id="tile"
+                            />
+                        </Grid.Column>
+                    </div>)
         })
         return (<div>
-                    <h1>{(this.state.myGroupsClicked === false ? "You're Home": "My Groups")}</h1>
-                    <Grid>
-                        {allGroups}
+                    <div className="header"><h1>{(this.state.myGroupsClicked === false ? "Welcome Home": "My Groups")}</h1></div>
+                    <Grid className="tile-wrapper">
+                        <Grid.Row >
+                            {allGroups}
+                        </Grid.Row>
                     </Grid>
                     <br></br>
-                    <Button onClick={(this.state.myGroupsClicked === false ? this.filterGroups : this.resetGroups)} name="groups" content={(this.state.myGroupsClicked === false ? "My Groups" : "Go Back")} className="button" color={this.state.myGroupsClicked === false ? "green" : "instagram"}/>
+                    <Button onClick={(this.state.myGroupsClicked === false ? this.filterGroups : this.resetGroups)} name="groups" content={(this.state.myGroupsClicked === false ? "My Groups" : "Go Back")} className="button" color="instagram"/>
                     <Button onClick={e => this.clickHandler(e)} name="/groups/create" content="Create Group" className="button" color="green"/>
                 </div>)
 

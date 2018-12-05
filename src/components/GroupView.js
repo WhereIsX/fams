@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Form, Input} from 'semantic-ui-react'
+import {Button, Form, Input, Grid, Card, Image} from 'semantic-ui-react'
 
 
 export default class GroupView extends Component {
@@ -170,7 +170,7 @@ export default class GroupView extends Component {
         if (this.state.clicked !== "empty"){
             if (image.id === Number(this.state.clicked)) {
                     console.log(image)
-                    return (<div id={image.id} key={image.id}>
+                    return (<div className="imageCard" id={image.id} key={image.id}>
                                 <Form onSubmit={e => this.nameHandler(e)}>
                                     <Input label="Edit Name" name="titleValue" value={this.state.titleValue} onChange={this.changeHandler} />
                                 </Form>
@@ -181,10 +181,16 @@ export default class GroupView extends Component {
                 }
                 } else {
                     console.log(image)
-                return (<div id={image.id} key={image.id}>
-                    <img src={image.image} width="300" crop="scale" alt="image not found =("/>
-                    <h1>{image.title}</h1>
-                    {( this.state.edit === false ? <Button content="Update Photo" color="green" onClick={e => this.updateCaption(e)}/> : null)}
+                return (<div id={image.id} key={image.id} className="imageCard">
+                    <Grid.Column>
+                        <Card>
+                        <Image src={image.image} alt="image not found =("  onClick={this.fullImage}/>
+                            <Card.Content>
+                                <Card.Header className="imageHeader" width="300" height="200">{image.title}</Card.Header>
+                            {( this.state.edit === false ? <Button content="Update Photo" color="white" onClick={e => this.updateCaption(e)}/> : null)}
+                            </Card.Content>
+                        </Card>
+                    </Grid.Column>
                     </div>)
                 }
     })
@@ -193,9 +199,13 @@ export default class GroupView extends Component {
     return (
       <div>
           <div>
-            {( this.state.edit === true ? <Form onSubmit={e => this.submitHandler(e)}><Input name="nameValue" label="Edit Name" value={this.state.nameValue} onChange={e => this.changeHandler(e)}/></Form> : <h1>{this.state.group.name}</h1>)}
+            {( this.state.edit === true ? <Form onSubmit={e => this.submitHandler(e)}><Input name="nameValue" label="Edit Name" value={this.state.nameValue} onChange={e => this.changeHandler(e)}/></Form> : <div className="header"><h1>{this.state.group.name}</h1></div>)}
           </div>
-            {allImages}
+            <Grid>
+                <Grid.Row>
+                {allImages}
+                </Grid.Row>
+            </Grid>
           <div>
                 
               
