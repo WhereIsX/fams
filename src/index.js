@@ -9,7 +9,7 @@ import 'semantic-ui-css/semantic.min.css'
 
 ReactDOM.render(
     (<Router>
-        <App />
+        <App apiUrl={"http://10.39.104.196:3000"}/>
     </Router>),
     document.getElementById('root')
 );

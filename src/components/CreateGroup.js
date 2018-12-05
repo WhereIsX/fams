@@ -18,10 +18,12 @@ export default class CreateGroup extends Component {
     e.preventDefault()
     // console.log(this.state.group)
 
-    fetch("http://localhost:3000/groups", {
+    fetch(`${this.props.apiUrl}/groups`, {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "accepts": "application/json",
+        authorization: `${this.props.token}`
       },
       body: JSON.stringify({
         name: this.state.group

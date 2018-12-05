@@ -3,10 +3,13 @@ import { Form, Input, Button } from 'semantic-ui-react'
 
 export default class MyGroups extends Component {
   state = {
-    group: ""
+    groups: []
   }
 
-  // Group Fetch Request
+  componentDidMount() {
+    console.log(this.props.allGroups)
+  }
+  
 
   changeHandler = (e) => {
     this.setState({ group: e.target.value}, () => console.log(this.state.group))

@@ -17,27 +17,27 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    // let token = localStorage.getItem("token");
-    // if (token) {
-    //   fetch("http:/localhost:3000/users/profile", {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "Accepts": "application/json",
-    //       Authorization: `${token}`
-    //     }
-    //   })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     this.setState({ user: data, token: token })
-    //     this.props.history.push("/home")
-    //   })
-    // } else {
-    //   this.props.history.push("/")
-    // }
+    let userToken = localStorage.getItem("token");
+    if (userToken) {
+      fetch(`${this.props.apiUrl}/users/profile`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json",
+          Authorization: `${userToken}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ user: data, token: userToken })
+        this.props.history.push("/home")
+      })
+    } else {
+      this.props.history.push("/")
+    }
   }
 
   login = (userInfo) => {
-    fetch("http://localhost:3000/users/login", {
+    fetch(`${this.props.apiUrl}/users/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -62,7 +62,9 @@ class App extends Component {
 
   createUser = (obj) => {
     // console.log(obj)
-    fetch("http://localhost:3000/users", {
+    localStorage.clear()
+
+    fetch(`${this.props.apiUrl}/users`, {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -77,7 +79,6 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      debugger
       localStorage.setItem("token", data.jwt)
       this.setState({ user: data.user, token: data.jwt})
       console.log('createuser set state', this.state)
@@ -86,26 +87,27 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.user, localStorage)
+    console.log(this.state.token)
     return (
       <div className="App">
         <NavBar props={this.state} logout={this.logout}/>
         <Switch>
           <Route exact path="/" render={(props) => (
-            <Welcome {...props} createUser={this.createUser} login={this.login}/>
+            <Welcome {...props} createUser={this.createUser} login={this.login} />
           )}/>
           <Route exact path="/login" render={(props) => (
             <Login handleLogin={this.login} />
             )} />
           <Route exact path="/home" render={(props) => (
-            <Home {...props} user={this.state.user} token={this.state.token} />
+            <Home {...props} user={this.state.user} token={this.state.token} apiUrl={this.props.apiUrl}/>
           )} />
           <Route exact path="/groups" render={(props) => (
             <MyGroups {...props} user={this.state.user} />
           )} />
-          <Route exact path="/groups/create" component={CreateGroup} />
+          <Route exact path="/groups/create" render={(props) => (
+            <CreateGroup {...props} apiUrl={this.props.apiUrl} token={this.state.token} />)} />
           <Route path='/groups/:id' render={(props) => (
-            <GroupView {...props} />)} />
+            <GroupView {...props} apiUrl={this.props.apiUrl} token={this.state.token}/>)} />
           <Route component={NoMatch} />
 
         </Switch>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Button, Form, Input} from 'semantic-ui-react'
-import welcome from '../imgs/welcomeImg.jpg'
 
 
 export default class GroupView extends Component {
@@ -15,21 +14,20 @@ export default class GroupView extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.token)
+        // console.log(this.props.token, this.props.apiUrl)
         // debugger
-        // let groupNumber = Number(this.props.match.params.id)
-        // fetch(`http://localhost:3000/groups/${groupNumber}`, {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accepts": "application/json",
-        //         Authorization: `${this.props.token}`
-        //     }
-        // })
-        // .then(res => res.json())
-        // .then(data => {
-        //     // debugger
-        //     this.setState({ group: data, photos: data.media, nameValue: data.name})
-        // })
+        let groupNumber = Number(this.props.match.params.id)
+        fetch(`${this.props.apiUrl}/groups/${groupNumber}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accepts": "application/json",
+                Authorization: `${this.props.token}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            this.setState({ group: data, photos: data.media, nameValue: data.name})
+        })
     }
 
     showWidget = (widget) => {
@@ -40,7 +38,7 @@ export default class GroupView extends Component {
         // e.preventDefault()
         // console.log(this.state.nameValue)
         // debugger
-        fetch(`http://localhost:3003/groups/${this.state.group.id}`, {
+        fetch(`${this.props.apiUrl}/groups/${this.state.group.id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -68,7 +66,7 @@ export default class GroupView extends Component {
 
     checkUploadResult = (resultEvent) => {
         if (resultEvent.event === "success") {
-            fetch("http://localhost:3000/media", {
+            fetch(`${this.props.apiUrl}/media`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
@@ -108,7 +106,7 @@ export default class GroupView extends Component {
 
     nameHandler = e => {
        let id = e.target.parentElement.id
-        fetch(`http://localhost:3000/media/${id}`, {
+        fetch(`${this.props.apiUrl}/media/${id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -130,7 +128,7 @@ export default class GroupView extends Component {
     }
 
     deleteGroupHandler = e => {
-        fetch(`http://localhost:3000/groups/${this.state.group.id}`, {
+        fetch(`${this.props.apiUrl}/groups/${this.state.group.id}`, {
             method: "DELETE"
         })
         .then(res => res.json())
@@ -148,7 +146,7 @@ export default class GroupView extends Component {
             })
         })
 
-        fetch(`http://localhost:3000/media/${id}`, {
+        fetch(`${this.props.apiUrl}/media/${id}`, {
             method: "DELETE",
         })
         .then(alert("Photo Has Been Deleted!"))
