@@ -23,11 +23,11 @@ export default class componentName extends Component {
 
     loginRender = () => {
         if (this.state.login === "login") {
-            return (<div id="logins">
+            return (<div id="sing-in">
                         <Login history={this.props.history} resetState={this.resetState} handleLogin={this.props.login}/>
                     </div>
             )} else if (this.state.login === "signup") {
-                return (<div id="logins">
+                return (<div id="sign-in">
                             <SignUp history={this.props.history} resetState={this.resetState} createUser={this.collect}/>
                         </div>)
             } else {
@@ -42,7 +42,9 @@ export default class componentName extends Component {
         return (
         <div>
             <h1 className="header"> Welcome to FAMS!</h1>
-            {this.loginRender()}
+            <div id="logins">
+                {this.loginRender()}
+            </div>
             <div id="welcome">
                 <img src={welcome} alt="welcome" />
             </div>

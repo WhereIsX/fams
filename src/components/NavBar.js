@@ -36,11 +36,8 @@ export default class NavBar extends Component {
                 <NavLink to="/groups" className="nav-item">Groups</NavLink>
             </Menu.Item>
             <Menu.Item>
-                <NavLink to={this.props.props.loggedIn ? "/logout" : "/login"} >{this.props.props.loggedIn ? "Logout" : "Login"}</NavLink>
+                <NavLink to="/" onClick={this.props.logout}>{this.props.props.loggedIn ? "Logout" : "Login"}</NavLink>
             </Menu.Item>
-            <Form position="right" onSubmit={e => this.handleSubmit(e)}>
-                <Input icon="search" placeholder="Search Groups" value={this.state.search} onChange={e => this.onChange(e)} />
-            </Form>
         </Menu>
     )
   }

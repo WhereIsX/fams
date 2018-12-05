@@ -17,27 +17,27 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    let token = localStorage.getItem("token");
-    if (token) {
-      fetch("http://localhost:3003/users/profile", {
-        headers: {
-          "Content-Type": "application/json",
-          "Accepts": "application/json",
-          Authorization: `${token}`
-        }
-      })
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ user: data, token: token })
-        this.props.history.push("/home")
-      })
-    } else {
-      this.props.history.push("/")
-    }
+    // let token = localStorage.getItem("token");
+    // if (token) {
+    //   fetch("http:/localhost:3000/users/profile", {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Accepts": "application/json",
+    //       Authorization: `${token}`
+    //     }
+    //   })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     this.setState({ user: data, token: token })
+    //     this.props.history.push("/home")
+    //   })
+    // } else {
+    //   this.props.history.push("/")
+    // }
   }
 
   login = (userInfo) => {
-    fetch("http://localhost:3003/api/v1/login", {
+    fetch("http://localhost:3000/users/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -48,15 +48,21 @@ class App extends Component {
         })
     })
     .then(res => res.json())
-    .then(res => {
-        localStorage.setItem("token")
-        this.setState({ user: res.user})
+    .then(data => {
+        localStorage.setItem("token", data.jwt)
+        this.setState({ user: data.user, token: data.jwt})
     })
 }
 
+  logout = () => {
+    localStorage.clear()
+    this.setState({ user: null, token: null})
+    this.props.history.replace("/")
+  }
+
   createUser = (obj) => {
     // console.log(obj)
-    fetch("http://localhost:3003/users", {
+    fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -71,6 +77,7 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
+      debugger
       localStorage.setItem("token", data.jwt)
       this.setState({ user: data.user, token: data.jwt})
       console.log('createuser set state', this.state)
@@ -82,7 +89,7 @@ class App extends Component {
     console.log(this.state.user, localStorage)
     return (
       <div className="App">
-        <NavBar props={this.state}/>
+        <NavBar props={this.state} logout={this.logout}/>
         <Switch>
           <Route exact path="/" render={(props) => (
             <Welcome {...props} createUser={this.createUser} login={this.login}/>

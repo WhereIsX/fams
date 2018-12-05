@@ -29,13 +29,13 @@ export default class componentName extends Component {
       <div>
           <h1>Sign Up!</h1>
             <Form onSubmit={e => this.submitHandler(e)}>
-                <Form.Field className="input" control={Input} name="name" label='Name:' placeholder='name' value={this.state.email} onChange={e => this.handleChange(e)}/>
-                <Form.Input className="input" control={Input} name="username" label="Username:" placeholder="username" value={this.state.username} onChange={e => this.handleChange(e)} />
-                <Form.Input className="input" type="password" name="password" label='Password:' placeholder='password' value={this.state.password} onChange={e => this.handleChange(e)} />
+                <Form.Field className="center aligned column" control={Input} name="name" label='Name:' placeholder='name' value={this.state.email} onChange={e => this.handleChange(e)}/>
+                <Form.Input className="center aligned column" control={Input} name="username" label="Username:" placeholder="username" value={this.state.username} onChange={e => this.handleChange(e)} />
+                <Form.Input className="center aligned column" type="password" name="password" label='Password:' placeholder='password' value={this.state.password} onChange={e => this.handleChange(e)} />
             
                 <Button type="submit" className="button" color="green">Sign Up</Button>
+                <Button content="Go Back" color="instagram" onClick={this.props.resetState}/>
             </Form>
-            <Button content="Go Back" color="green" onClick={this.props.resetState}/>
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Button, Form, Input} from 'semantic-ui-react'
-import {Image} from 'cloudinary-react'
-import {fetchPhotos} from './FetchPhotos'
+import welcome from '../imgs/welcomeImg.jpg'
 
 
 export default class GroupView extends Component {
@@ -9,21 +8,28 @@ export default class GroupView extends Component {
         group: {},
         photos: [],
         clicked: "empty",
+        clickedImage: false,
         titleValue: "",
         nameValue: "",
         edit: false
     }
 
     componentDidMount() {
-        let groupNumber = Number(this.props.match.params.id)
-        fetch(`http://localhost:3003/groups/${groupNumber}`)
-        .then(res => res.json())
-        .then(data => {
-            // debugger
-            this.setState({ group: data, photos: data.media, nameValue: data.name})
-        })
-
-        // fetchPhotos("famsproj")
+        // console.log(this.props.token)
+        // debugger
+        // let groupNumber = Number(this.props.match.params.id)
+        // fetch(`http://localhost:3000/groups/${groupNumber}`, {
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Accepts": "application/json",
+        //         Authorization: `${this.props.token}`
+        //     }
+        // })
+        // .then(res => res.json())
+        // .then(data => {
+        //     // debugger
+        //     this.setState({ group: data, photos: data.media, nameValue: data.name})
+        // })
     }
 
     showWidget = (widget) => {
@@ -62,7 +68,7 @@ export default class GroupView extends Component {
 
     checkUploadResult = (resultEvent) => {
         if (resultEvent.event === "success") {
-            fetch("http://localhost:3003/media", {
+            fetch("http://localhost:3000/media", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
@@ -79,9 +85,11 @@ export default class GroupView extends Component {
                 console.log(data)
                 this.setState({ photos: [...this.state.photos, resultEvent.info.secure_url]})
             })
-        }
+        }   
+    }
 
-        
+    fullImage = () => {
+        this.setState({ clickedImage: !this.state.clickedImage})
     }
 
     updateCaption = e => {
@@ -100,7 +108,7 @@ export default class GroupView extends Component {
 
     nameHandler = e => {
        let id = e.target.parentElement.id
-        fetch(`http://localhost:3003/media/${id}`, {
+        fetch(`http://localhost:3000/media/${id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -122,7 +130,7 @@ export default class GroupView extends Component {
     }
 
     deleteGroupHandler = e => {
-        fetch(`http://localhost:3003/groups/${this.state.group.id}`, {
+        fetch(`http://localhost:3000/groups/${this.state.group.id}`, {
             method: "DELETE"
         })
         .then(res => res.json())
@@ -140,7 +148,7 @@ export default class GroupView extends Component {
             })
         })
 
-        fetch(`http://localhost:3003/media/${id}`, {
+        fetch(`http://localhost:3000/media/${id}`, {
             method: "DELETE",
         })
         .then(alert("Photo Has Been Deleted!"))
@@ -156,7 +164,7 @@ export default class GroupView extends Component {
                                 <Form onSubmit={e => this.nameHandler(e)}>
                                     <Input label="Edit Name" name="titleValue" value={this.state.titleValue} onChange={this.changeHandler} />
                                 </Form>
-                                    <img src={image.image} width="300" crop="scale" alt="image not found =(" />
+                                    <img src={image.image} width={(this.state.clickedImage === false ? "300" : "600")} crop="scale" alt="image not found =("  onClick={this.fullImage}/>
                                 <Button content="Delete Photo" color="red" onClick={e => this.deleteHandler(e)}/>
                                 <Button content="Go Back" color="green" onClick={e => this.goBack(e)} />
                             </div>)

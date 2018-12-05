@@ -7,7 +7,7 @@ export default class CreateGroup extends Component {
   }
 
   clickHandler = () => {
-    this.props.history.replace("/")
+    this.props.history.replace("/home")
   }
 
   changeHandler = (e) => {
@@ -18,7 +18,7 @@ export default class CreateGroup extends Component {
     e.preventDefault()
     // console.log(this.state.group)
 
-    fetch("http://localhost:3003/groups", {
+    fetch("http://localhost:3000/groups", {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -32,15 +32,15 @@ export default class CreateGroup extends Component {
   }
   render() {
     return (
-      <div>
+      <div id="creategroup">
           <h1>Create New Group</h1>
           <Form onSubmit={e => this.submitHandler(e)}>
             <Form.Field>
               <Input label="Name:" placeholder="Group Name" value={this.state.group} onChange={this.changeHandler}/>
             </Form.Field>
             <Button type="submit" className="button" color="green">Create Group</Button>
+            <Button onClick={e => this.clickHandler(e)} content="Go Home" className="button" color="instagram"/> 
           </Form>
-          <Button onClick={e => this.clickHandler(e)} content="Home Page" className="button" color="green"/> 
       </div>
     )
   }

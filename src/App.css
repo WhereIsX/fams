@@ -52,7 +52,6 @@
 }
 
 .input {
-  align-items: center;
   width: 50%
 }
 
@@ -93,6 +92,10 @@
   height: 55%
 }
 
+#sign-in {
+  align-content: center;
+}
+
 h1 {
   color: cornflowerblue;
 }
@@ -100,3 +103,30 @@ h1 {
 body {
   background-color: #F4F6F7 !important;
 }
+
+#creategroup {
+  width: 50%;
+  display: inline-block;
+}
+
+a:link {
+  color: #F4F6F7;
+}
+
+a:visited {
+  color: rgb(254, 254, 254);
+}
+
+a:hover {
+  color: #fbfec4
+}
+
+/* form.ui.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+    position: relative;
+    flex-wrap: wrap;
+} */

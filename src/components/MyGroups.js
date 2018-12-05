@@ -32,7 +32,7 @@ export default class MyGroups extends Component {
       <div>
         <h1>Groups I Made</h1>
         <Button name="create" content="Create Group" color="green" onClick={e => this.clickHandler(e)}/>
-        <Button name="home" content="Go Home" color="green" onClick={e => this.clickHandler(e)} />
+        <Button name="home" content="Go Home" color="instagram" onClick={e => this.clickHandler(e)} />
       </div>
     )
   }
