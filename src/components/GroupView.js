@@ -69,7 +69,9 @@ export default class GroupView extends Component {
             fetch(`${this.props.apiUrl}/media`, {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json"
+                    "content-type": "application/json",
+                    "accepts": "application/json",
+                    authorization: `${this.props.token}`
                 },
                 body: JSON.stringify({
                     "user_id": 1,
@@ -82,6 +84,7 @@ export default class GroupView extends Component {
             .then(data => {
                 console.log(data)
                 this.setState({ photos: [...this.state.photos, resultEvent.info.secure_url]})
+                this.componentDidMount()
             })
         }   
     }
@@ -110,7 +113,8 @@ export default class GroupView extends Component {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
-                "accepts": "application/json"
+                "accepts": "application/json",
+                authorization: `${this.props.token}`
             },
             body: JSON.stringify({
                 "title": this.state.titleValue
@@ -148,8 +152,16 @@ export default class GroupView extends Component {
 
         fetch(`${this.props.apiUrl}/media/${id}`, {
             method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json",
+                authorization: `${this.props.token}`
+            }
         })
-        .then(alert("Photo Has Been Deleted!"))
+        .then(() => {
+                alert("Photo Has Been Deleted!")
+                this.goBack()
+            })
     }
 
   render() {

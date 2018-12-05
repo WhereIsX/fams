@@ -32,7 +32,6 @@ class Home extends Component {
     }
 
     filterGroups = () => {
-        console.log(this.props.user.user.id)
         this.setState({ 
             filteredGroups: [...this.state.groups].filter(group => {
             return group.members.length > 0 && this.props.user.user.id === group.members[0].user_id
@@ -62,7 +61,7 @@ class Home extends Component {
                         {allGroups}
                     </Grid>
                     <br></br>
-                    <Button onClick={(this.state.myGroupsClicked === false ? this.filterGroups : this.resetGroups)} name="groups" content={(this.state.myGroupsClicked === false ? "My Groups" : "Go Back")} className="button" color="green"/>
+                    <Button onClick={(this.state.myGroupsClicked === false ? this.filterGroups : this.resetGroups)} name="groups" content={(this.state.myGroupsClicked === false ? "My Groups" : "Go Back")} className="button" color={this.state.myGroupsClicked === false ? "green" : "instagram"}/>
                     <Button onClick={e => this.clickHandler(e)} name="/groups/create" content="Create Group" className="button" color="green"/>
                 </div>)
 

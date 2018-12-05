@@ -8,30 +8,12 @@ export default class NavBar extends Component {
         search: ""
     }
 
-    handleClick = (e) => {
-        console.log(this.props)
-        if (e.target.innerText === "Home") {
-            return <Redirect push to="/home" />
-        } else {
-            return <Redirect push to={`/${e.target.innerText.toLowerCase()}`} />
-        }
-    }
-
-    handleSubmit = (e) => {
-            e.preventDefault()
-        console.log(this.state.search)
-    }
-
-    onChange = (e) => {
-       this.setState({ search: e.target.value})
-    }
-
     render() {
         console.log(this.props.props.user)  
         return (
         <Menu id="navbar">
             <Menu.Item name="home" >
-                <NavLink to="/" className="nav-item">Home</NavLink>
+                <NavLink to="/home" className="nav-item">Home</NavLink>
             </Menu.Item>
             <Menu.Item>
                 <NavLink to="/groups" className="nav-item">Groups</NavLink>
