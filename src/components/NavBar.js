@@ -11,7 +11,7 @@ export default class NavBar extends Component {
     handleClick = (e) => {
         console.log(this.props)
         if (e.target.innerText === "Home") {
-            return <Redirect push to="/" />
+            return <Redirect push to="/home" />
         } else {
             return <Redirect push to={`/${e.target.innerText.toLowerCase()}`} />
         }
@@ -26,7 +26,8 @@ export default class NavBar extends Component {
        this.setState({ search: e.target.value})
     }
 
-    render() {  
+    render() {
+        console.log(this.props.props.user)  
         return (
         <Menu id="navbar">
             <Menu.Item name="home" >
@@ -36,7 +37,7 @@ export default class NavBar extends Component {
                 <NavLink to="/groups" className="nav-item">Groups</NavLink>
             </Menu.Item>
             <Menu.Item>
-                <NavLink to="/" onClick={this.props.logout}>{this.props.props.loggedIn ? "Logout" : "Login"}</NavLink>
+                <NavLink to="/" onClick={this.props.logout}>{this.props.props.user ? "Logout" : "Login"}</NavLink>
             </Menu.Item>
         </Menu>
     )

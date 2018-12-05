@@ -5,7 +5,6 @@ import Home from "./components/Home"
 import NoMatch from "./components/NoMatch"
 import { Route, Switch, withRouter } from 'react-router-dom'
 import CreateGroup from "./components/CreateGroup"
-import MyGroups from "./components/MyGroups"
 import NavBar from "./components/NavBar"
 import Welcome from "./components/Welcome"
 import GroupView from "./components/GroupView"
@@ -37,7 +36,7 @@ class App extends Component {
   }
 
   login = (userInfo) => {
-    fetch(`${this.props.apiUrl}/users/login`, {
+    fetch(`${this.props.apiUrl}/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -51,6 +50,7 @@ class App extends Component {
     .then(data => {
         localStorage.setItem("token", data.jwt)
         this.setState({ user: data.user, token: data.jwt})
+        this.props.history.replace("/home")
     })
 }
 
@@ -100,9 +100,6 @@ class App extends Component {
             )} />
           <Route exact path="/home" render={(props) => (
             <Home {...props} user={this.state.user} token={this.state.token} apiUrl={this.props.apiUrl}/>
-          )} />
-          <Route exact path="/groups" render={(props) => (
-            <MyGroups {...props} user={this.state.user} />
           )} />
           <Route exact path="/groups/create" render={(props) => (
             <CreateGroup {...props} apiUrl={this.props.apiUrl} token={this.state.token} />)} />
