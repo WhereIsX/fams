@@ -76,7 +76,7 @@ export default class GroupView extends Component {
                     authorization: `${this.props.token}`
                 },
                 body: JSON.stringify({
-                    "user_id": 1,
+                    "user_id": this.props.user.user.id,
                     "group_id": this.state.group.id,
                     "image": resultEvent.info.secure_url,
                     "title": "Hey Girl!"
@@ -93,6 +93,14 @@ export default class GroupView extends Component {
 
     fullImage = () => {
         this.setState({ clickedImage: !this.state.clickedImage})
+    }
+
+    buttonRender = (image) => {
+        if (Number(this.props.user.user.id) === image.user_id &&  this.state.clickedImage === false) {
+            return <Button content="Update Photo" color="black" onClick={e => this.updateCaption(e)}/>
+        } else if (Number(this.props.user.user.id) === image.user_id &&  this.state.clickedImage === true) {
+            return <Button content="Delete Photo" color="red" onClick={e => this.deleteHandler(e)}/>
+        }
     }
 
     updateCaption = e => {
@@ -135,13 +143,19 @@ export default class GroupView extends Component {
     }
 
     deleteGroupHandler = e => {
-        fetch(`${this.props.apiUrl}/groups/${this.state.group.id}`, {
-            method: "DELETE"
-        })
-        .then(res => res.json())
-        .then(() => {
-            alert("Group Has Been Deleted!")
-            this.props.history.replace("/home")})
+        debugger
+        if (this.state.group.members[0] !== undefined && this.state.group.members[0].user_id === this.props.user.user.id){
+            fetch(`${this.props.apiUrl}/groups/${this.state.group.id}`, {
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(() => {
+                alert("Group Has Been Deleted!")
+                this.props.history.replace("/home")})
+        } else {
+            alert("You're Not Allowed to Do This!")
+        }
+        
     }
 
     deleteHandler = e => {
@@ -150,8 +164,9 @@ export default class GroupView extends Component {
 
         this.setState({ 
             photos: [...this.state.photos].filter(photo => {
-                return Number(e.target.parentElement.id) !== photo.id
-            })
+                return Number(this.state.imageId) !== photo.id
+            }),
+            clickedImage: false
         })
 
         fetch(`${this.props.apiUrl}/media/${id}`, {
@@ -169,7 +184,10 @@ export default class GroupView extends Component {
     }
 
   render() {
+    //   debugger
+      console.log(this.state.group.members)
     let allImages = this.state.photos.map(image => {
+                console.log(image)
                 return (<div id={image.id} key={image.id} className="imageCard">
                     <Grid.Column>
                         <Card>
@@ -179,7 +197,7 @@ export default class GroupView extends Component {
                                     <Input type="text" name="titleValue" placeholder={image.title} value={this.state.titleValue} onChange={this.changeHandler}/>
                                 </Form> :
                                 <Card.Header className="imageHeader" width="300" height="200">{image.title}</Card.Header>)}
-                            {( this.state.clickedImage === false && Number(this.props.user.user.id) === image.id ?  <Button content="Update Photo" color="black" onClick={e => this.updateCaption(e)}/> : null)}
+                            {this.buttonRender(image)}
                             </Card.Content>
                         </Card>
                     </Grid.Column>
@@ -206,7 +224,7 @@ export default class GroupView extends Component {
                 {( this.state.edit === true ? <Button content="Go Back" color="green" onClick={e => this.goBack(e)} /> : null)}
             </div>
             <div>
-                {( this.state.clicked === "empty" && this.state.edit === false ? <Button content="Edit Group" color="red" onClick={e => this.editGroupHandler(e)} /> : <Button content="Delete Group" color="red" onClick={e => this.deleteGroupHandler(e)} />)}
+                {( this.state.edit === false ? <Button content="Edit Group" color="red" onClick={e => this.editGroupHandler(e)} /> : <Button content="Delete Group" color="red" onClick={e => this.deleteGroupHandler(e)} />)}
             </div>
          
       </div>

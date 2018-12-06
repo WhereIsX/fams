@@ -57,10 +57,14 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
+      debugger
       if (data.message){
         localStorage.clear()
         alert(data.message)
         this.props.history.replace("/")
+      } else if (data.error){
+        localStorage.clear()
+        alert(data.error)
       } else {
         localStorage.setItem("token", data.jwt)
         this.setState({ user: data.user, token: data.jwt})
