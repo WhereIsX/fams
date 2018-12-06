@@ -8,6 +8,7 @@ export default class GroupView extends Component {
         photos: [],
         clicked: "empty",
         clickedImage: false,
+        imageId: 0,
         titleValue: "",
         nameValue: "",
         edit: false
@@ -26,6 +27,7 @@ export default class GroupView extends Component {
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             this.setState({ group: data, photos: data.media, nameValue: data.name})
         })
     }
@@ -94,8 +96,7 @@ export default class GroupView extends Component {
     }
 
     updateCaption = e => {
-        // debugger
-        this.setState({ clicked: e.target.parentElement.id, titleValue: e.target.parentElement.children[1].innerText
+        this.setState({ clickedImage: !this.state.clickedImage, imageId: e.target.parentElement.parentElement.parentElement.parentElement.id
         })
     }
 
@@ -104,11 +105,12 @@ export default class GroupView extends Component {
     }
 
     changeHandler = e => {
+        // debugger
         this.setState({ [e.target.name]: e.target.value})
     }
 
     nameHandler = e => {
-       let id = e.target.parentElement.id
+       let id = Number(this.state.imageId)
         fetch(`${this.props.apiUrl}/media/${id}`, {
             method: "PATCH",
             headers: {
@@ -122,7 +124,8 @@ export default class GroupView extends Component {
         })
         .then(res => res.json())
         .then(() => {
-            this.setState({titleValue: "", clicked: "empty"})
+            // debugger
+            this.setState({titleValue: "", clickedImage: false, imageId: 0})
             this.componentDidMount()
             })
     }
@@ -142,7 +145,8 @@ export default class GroupView extends Component {
     }
 
     deleteHandler = e => {
-        let id = Number(e.target.parentElement.id)
+        let id = Number(this.state.imageId)
+        debugger
 
         this.setState({ 
             photos: [...this.state.photos].filter(photo => {
@@ -165,35 +169,22 @@ export default class GroupView extends Component {
     }
 
   render() {
-      console.log(this.state.clicked)
     let allImages = this.state.photos.map(image => {
-        if (this.state.clicked !== "empty"){
-            if (image.id === Number(this.state.clicked)) {
-                    console.log(image)
-                    return (<div className="imageCard" id={image.id} key={image.id}>
-                                <Form onSubmit={e => this.nameHandler(e)}>
-                                    <Input label="Edit Name" name="titleValue" value={this.state.titleValue} onChange={this.changeHandler} />
-                                </Form>
-                                    <img src={image.image} width={(this.state.clickedImage === false ? "300" : "600")} crop="scale" alt="image not found =("  onClick={this.fullImage}/>
-                                <Button content="Delete Photo" color="red" onClick={e => this.deleteHandler(e)}/>
-                                <Button content="Go Back" color="green" onClick={e => this.goBack(e)} />
-                            </div>)
-                }
-                } else {
-                    console.log(image)
                 return (<div id={image.id} key={image.id} className="imageCard">
                     <Grid.Column>
                         <Card>
                         <Image src={image.image} alt="image not found =("  onClick={this.fullImage}/>
-                            <Card.Content>
-                                <Card.Header className="imageHeader" width="300" height="200">{image.title}</Card.Header>
-                            {( this.state.edit === false ? <Button content="Update Photo" color="white" onClick={e => this.updateCaption(e)}/> : null)}
+                            <Card.Content className="cardContent">
+                                {(this.state.clickedImage === true  && Number(this.state.imageId) === image.id ? <Form onSubmit={e => this.nameHandler(e)}>
+                                    <Input type="text" name="titleValue" placeholder={image.title} value={this.state.titleValue} onChange={this.changeHandler}/>
+                                </Form> :
+                                <Card.Header className="imageHeader" width="300" height="200">{image.title}</Card.Header>)}
+                            {( this.state.clickedImage === false && Number(this.props.user.user.id) === image.id ?  <Button content="Update Photo" color="black" onClick={e => this.updateCaption(e)}/> : null)}
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                     </div>)
-                }
-    })
+                })
             
             
     return (
@@ -201,7 +192,7 @@ export default class GroupView extends Component {
           <div>
             {( this.state.edit === true ? <Form onSubmit={e => this.submitHandler(e)}><Input name="nameValue" label="Edit Name" value={this.state.nameValue} onChange={e => this.changeHandler(e)}/></Form> : <div className="header"><h1>{this.state.group.name}</h1></div>)}
           </div>
-            <Grid>
+            <Grid className="imageGrid">
                 <Grid.Row>
                 {allImages}
                 </Grid.Row>

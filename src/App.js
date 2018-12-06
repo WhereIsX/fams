@@ -17,6 +17,7 @@ class App extends Component {
 
   componentDidMount = () => {
     let userToken = localStorage.getItem("token");
+    // debugger
     if (userToken) {
       fetch(`${this.props.apiUrl}/users/profile`, {
         headers: {
@@ -27,8 +28,13 @@ class App extends Component {
       })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         this.setState({ user: data, token: userToken })
         this.props.history.push("/home")
+      })
+      .catch(() => {
+        alert("Invalid Username or Password")
+        this.props.history.push("/")
       })
     } else {
       this.props.history.push("/")
@@ -36,22 +42,32 @@ class App extends Component {
   }
 
   login = (userInfo) => {
+    localStorage.clear()
+
     fetch(`${this.props.apiUrl}/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accepts": "application/json",
         },
+
         body: JSON.stringify({
             user: userInfo
         })
     })
     .then(res => res.json())
     .then(data => {
+      if (data.message){
+        localStorage.clear()
+        alert(data.message)
+        this.props.history.replace("/")
+      } else {
         localStorage.setItem("token", data.jwt)
         this.setState({ user: data.user, token: data.jwt})
         this.props.history.replace("/home")
+      }
     })
+    
 }
 
   logout = () => {
@@ -61,7 +77,6 @@ class App extends Component {
   }
 
   createUser = (obj) => {
-    // console.log(obj)
     localStorage.clear()
 
     fetch(`${this.props.apiUrl}/users`, {
@@ -79,6 +94,7 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
+      // debugger
       localStorage.setItem("token", data.jwt)
       this.setState({ user: data.user, token: data.jwt})
       console.log('createuser set state', this.state)
@@ -104,7 +120,7 @@ class App extends Component {
           <Route exact path="/groups/create" render={(props) => (
             <CreateGroup {...props} apiUrl={this.props.apiUrl} token={this.state.token} />)} />
           <Route path='/groups/:id' render={(props) => (
-            <GroupView {...props} apiUrl={this.props.apiUrl} token={this.state.token}/>)} />
+            <GroupView {...props} user={this.state.user} apiUrl={this.props.apiUrl} token={this.state.token}/>)} />
           <Route component={NoMatch} />
 
         </Switch>

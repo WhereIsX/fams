@@ -155,10 +155,24 @@ a:hover {
 .imageCard {
   margin-left: 5em;
   margin-top: 5em;
-
+  margin-right: 5em;
 }
 
 .groupTile {
   margin-left: 5em;
+  margin-right: 5em;
   margin-top: 5em;
+}
+
+.imageGrid {
+  display: flex;
+  justify-content: center;
+}
+
+.cardContent {
+  height: 100px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }

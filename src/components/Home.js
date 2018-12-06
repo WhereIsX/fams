@@ -13,6 +13,7 @@ class Home extends Component {
 
     componentDidMount(){
         console.log(this.props.apiUrl, this.props.token)
+        // debugger
         fetch(`${this.props.apiUrl}/groups`, {
           headers: {
             "content-type": "application/json",
