@@ -16,7 +16,6 @@ export default class CreateGroup extends Component {
 
   submitHandler = (e) => {
     e.preventDefault()
-    // console.log(this.state.group)
 
     fetch(`${this.props.apiUrl}/groups`, {
       method: "POST",
@@ -32,7 +31,6 @@ export default class CreateGroup extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      debugger
       this.props.history.push(`/groups/${data.id}`)
     })
   }

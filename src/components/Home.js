@@ -33,13 +33,19 @@ class Home extends Component {
     }
 
     filterGroups = () => {
-        this.setState({ 
+        let props = this.props
+        let user = this.props.user
+        if (this.props.user) {
+            this.setState({ 
             filteredGroups: [...this.state.groups].filter(group => {
-            return group.members.length > 0 && this.props.user.user.id === group.members[0].user_id
-        }),
-            myGroupsClicked: !this.state.myGroupsClicked
-        }, () => console.log(this.state.filteredGroups))
-        
+                return group.members.length > 0 && this.props.user.id === group.members[0].user_id
+            }),
+                myGroupsClicked: !this.state.myGroupsClicked
+            })
+        } else {
+            alert("Uh Oh! Something Went Wrong! Please Try Again!")
+        }
+
     }
 
     resetGroups = () => {
