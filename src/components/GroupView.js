@@ -15,8 +15,6 @@ export default class GroupView extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.token, this.props.apiUrl)
-        // debugger
         let groupNumber = Number(this.props.match.params.id)
         fetch(`${this.props.apiUrl}/groups/${groupNumber}`, {
             headers: {
@@ -37,9 +35,6 @@ export default class GroupView extends Component {
     }
 
     submitHandler = (e) => {
-        // e.preventDefault()
-        // console.log(this.state.nameValue)
-        // debugger
         fetch(`${this.props.apiUrl}/groups/${this.state.group.id}`, {
             method: "PATCH",
             headers: {
@@ -76,7 +71,7 @@ export default class GroupView extends Component {
                     authorization: `${this.props.token}`
                 },
                 body: JSON.stringify({
-                    "user_id": this.props.user.user.id,
+                    "user_id": Number(this.props.user.user.id),
                     "group_id": this.state.group.id,
                     "image": resultEvent.info.secure_url,
                     "title": "Hey Girl!"
@@ -84,11 +79,12 @@ export default class GroupView extends Component {
             })
             .then(res => res.json())
             .then(data => {
+                debugger
                 console.log(data)
                 this.setState({ photos: [...this.state.photos, resultEvent.info.secure_url]})
                 this.componentDidMount()
             })
-        }   
+        }
     }
 
     fullImage = () => {
@@ -96,11 +92,12 @@ export default class GroupView extends Component {
     }
 
     buttonRender = (image) => {
+        if (this.props.props){
         if (Number(this.props.user.user.id) === image.user_id &&  this.state.clickedImage === false) {
             return <Button content="Update Photo" color="black" onClick={e => this.updateCaption(e)}/>
         } else if (Number(this.props.user.user.id) === image.user_id &&  this.state.clickedImage === true) {
             return <Button content="Delete Photo" color="red" onClick={e => this.deleteHandler(e)}/>
-        }
+        }}
     }
 
     updateCaption = e => {
@@ -195,7 +192,6 @@ export default class GroupView extends Component {
 
   render() {
     //   debugger
-      console.log(this.state.group.members)
     let allImages = this.state.photos.map(image => {
                 console.log(image)
                 return (<div id={image.id} key={image.id} className="imageCard">
