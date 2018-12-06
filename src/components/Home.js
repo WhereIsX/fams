@@ -12,20 +12,25 @@ class Home extends Component {
    }
 
     componentDidMount(){
-        console.log(this.props.apiUrl, this.props.token)
-        // debugger
-        fetch(`${this.props.apiUrl}/groups`, {
-          headers: {
-            "content-type": "application/json",
-            "accepts": "application/json",
-            Authorization: `${this.props.token}`
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-          this.setState({ groups: data, filteredGroups: data})
-          console.log("got to home fetch", data)
-        })
+        if(this.props.user){
+            console.log(this.props.apiUrl, this.props.token)
+            // debugger
+            fetch(`${this.props.apiUrl}/groups`, {
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json",
+                Authorization: `${this.props.token}`
+            }
+            })
+            .then(res => res.json())
+            .then(data => {
+            this.setState({ groups: data, filteredGroups: data})
+            console.log("got to home fetch", data)
+            })
+        } else {
+            this.props.history.replace("/")
+        }
+            
     }
 
     clickHandler = (e) => {
