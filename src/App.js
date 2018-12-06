@@ -17,7 +17,6 @@ class App extends Component {
 
   componentDidMount = () => {
     let userToken = localStorage.getItem("token");
-    // debugger
     if (userToken) {
       fetch(`${this.props.apiUrl}/users/profile`, {
         headers: {
@@ -98,11 +97,13 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      // debugger
-      localStorage.setItem("token", data.jwt)
-      this.setState({ user: data.user, token: data.jwt})
-      console.log('createuser set state', this.state)
-      this.props.history.replace("/home")
+      if (data.length === 1){
+        alert(data[0])
+      } else {
+        localStorage.setItem("token", data.jwt)
+        this.setState({ user: data.user, token: data.jwt})
+        this.props.history.replace("/home")
+      }
     })
   }
 

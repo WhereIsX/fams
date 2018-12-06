@@ -42,6 +42,7 @@ export default class componentName extends Component {
         return (
         <div>
             <h1 className="header"> Welcome to FAMS!</h1>
+            <br></br>
             <div id="logins">
                 {this.loginRender()}
             </div>

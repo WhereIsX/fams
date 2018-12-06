@@ -62,7 +62,7 @@ class Home extends Component {
                     </div>)
         })
         return (<div>
-                    <div className="header"><h1>{(this.state.myGroupsClicked === false ? "Welcome Home": "My Groups")}</h1></div>
+                    <div className="header"><h1>{(this.state.myGroupsClicked === false ? "Welcome Home": "Groups I Made")}</h1></div>
                     <Grid className="tile-wrapper">
                         <Grid.Row >
                             {allGroups}

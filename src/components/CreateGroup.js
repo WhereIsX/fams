@@ -26,12 +26,17 @@ export default class CreateGroup extends Component {
         authorization: `${this.props.token}`
       },
       body: JSON.stringify({
-        name: this.state.group
+        name: this.state.group,
+        members: this.state.user
       })
     })
     .then(res => res.json())
-    .then(data => this.props.history.push(`/groups/${data.id}`))
+    .then(data => {
+      debugger
+      this.props.history.push(`/groups/${data.id}`)
+    })
   }
+
   render() {
     return (
       <div id="creategroup">

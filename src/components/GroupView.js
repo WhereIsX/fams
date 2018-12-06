@@ -143,15 +143,25 @@ export default class GroupView extends Component {
     }
 
     deleteGroupHandler = e => {
-        debugger
         if (this.state.group.members[0] !== undefined && this.state.group.members[0].user_id === this.props.user.user.id){
-            fetch(`${this.props.apiUrl}/groups/${this.state.group.id}`, {
-                method: "DELETE"
+            debugger
+            fetch(`${this.props.apiUrl}/groups/${Number(this.state.group.id)}`, {
+                method: "DELETE",
+                headers: {
+                    "content-type": "application/json",
+                    "accepts": "application/json",
+                    authorization: `${this.props.token}`
+                }
             })
             .then(res => res.json())
-            .then(() => {
+            .then(data => {
+                debugger
                 alert("Group Has Been Deleted!")
                 this.props.history.replace("/home")})
+            .catch(() => {
+                // debugger
+                this.props.history.push("/")
+            })
         } else {
             alert("You're Not Allowed to Do This!")
         }
